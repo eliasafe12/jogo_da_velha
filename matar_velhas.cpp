@@ -3,9 +3,8 @@
 using namespace std;
 // JOGO DA VELHA - Eliasafe Matheus Kelczeski Mendes
 // 20/08/2025
-int lin, col; // usar pra posição que o usuário quer
-char  mat_velha[3][3], vazio = '-', xis = 'X', bola = 'O';   // declarar a tabela do jogo
-void tabu(){ // imprimir tabuleiro
+
+void tabu(char mat_velha[3][3]){ // imprimir tabuleiro
     cout << "Tabuleiro:" << endl;
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){
@@ -14,7 +13,7 @@ void tabu(){ // imprimir tabuleiro
             cout << endl;
     }
 }
-void victory(){ // checa se alguém venceu
+void victory(char mat_velha[3][3], char vazio){ // checa se alguém venceu
     for(int i=0; i<3; i++){ 
         if(mat_velha[i][0] == mat_velha[i][1] && mat_velha[i][1] == mat_velha[i][2]){ // checar linhas
             if(mat_velha[i][0] != vazio){
@@ -43,13 +42,15 @@ void victory(){ // checa se alguém venceu
     }    
 }
 int main(){
+    int lin, col; // usar pra posição que o usuário quer
+    char  mat_velha[3][3], vazio = '-', xis = 'X', bola = 'O';   // declarar a tabela do jogo
     // preencher a matriz pra n�o dar erro
     for(int i=0; i<3; i++){
         for(int j=0; j<3; j++){
             mat_velha[i][j]= vazio;
         }
     }
-    tabu(); // mostra o tabuleiro inicial
+    tabu(mat_velha); // mostra o tabuleiro inicial
     for(int l=0; l<9; l++){
         if(l%2==0){ // imprimir de quem é a vez
             cout << "Vez do " << bola << endl;
@@ -68,8 +69,8 @@ int main(){
                 mat_velha[lin][col] = xis;
             }
         }
-        tabu();
-        victory();
+        tabu(mat_velha);
+        victory(mat_velha, vazio);
     }
     cout << "Deu velha!" << endl;
 }
