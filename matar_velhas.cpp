@@ -4,6 +4,20 @@ using namespace std;
 // JOGO DA VELHA - Eliasafe Matheus Kelczeski Mendes
 // 20/08/2025
 
+bool fazer_jogada(char jog, char mat_velha[3][3]){
+    int lin, col; // usar pra posição que o usuário quer
+    cout << "Vez do " << jog << endl;
+    cout << "Insira uma posição:" << endl; // pedir pro usuário a posição da peça
+    cin >> lin >> col;
+    if(mat_velha[lin][col] != '-'){ // checar se a jogada é válida
+        cout << "Jogada inválida" << endl;
+        return false;
+    }else{
+        mat_velha[lin][col] = jog;
+        return true;
+    }
+
+}
 void tabu(char mat_velha[3][3]){ // imprimir tabuleiro
     cout << "Tabuleiro:" << endl;
     for(int i=0; i<3; i++){
@@ -42,7 +56,6 @@ void victory(char mat_velha[3][3], char vazio){ // checa se alguém venceu
     }    
 }
 int main(){
-    int lin, col; // usar pra posição que o usuário quer
     char  mat_velha[3][3], vazio = '-', xis = 'X', bola = 'O';   // declarar a tabela do jogo
     // preencher a matriz pra n�o dar erro
     for(int i=0; i<3; i++){
@@ -53,20 +66,12 @@ int main(){
     tabu(mat_velha); // mostra o tabuleiro inicial
     for(int l=0; l<9; l++){
         if(l%2==0){ // imprimir de quem é a vez
-            cout << "Vez do " << bola << endl;
+            if(fazer_jogada(bola, mat_velha) == false){ // se a jogada for invalida o l diminui pra voltar pra mesma pessoa
+                l--;
+            }
         }else{
-            cout << "Vez do " << xis << endl;
-        }
-        cout << "Insira uma posic�o:" << endl; // pedir pro usuário a posição da peça
-        cin >> lin >> col;
-        if(mat_velha[lin][col] == bola || mat_velha[lin][col] == xis || lin < 0 || lin > 2 || col < 0 || col > 2){ // checar se a jogada é válida
-            cout << "Jogada inv�lida" << endl;
-            l--;
-        }else{
-            if(l%2==0){
-                mat_velha[lin][col] = bola;
-            }else{
-                mat_velha[lin][col] = xis;
+            if(fazer_jogada(xis, mat_velha) == false){
+                l--;
             }
         }
         tabu(mat_velha);
